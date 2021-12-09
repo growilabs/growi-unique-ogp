@@ -1,0 +1,13 @@
+name: ogp for growi
+on: push
+
+jobs:
+
+  my_test:
+
+    name: my test action
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: say hello world
+      run: echo "hello world"
