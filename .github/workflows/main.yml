@@ -16,7 +16,6 @@ jobs:
           registry: ghcr.io
           username: wsmoogle
           password: ${{ secrets.OGP_PAT }}
-    
       -
         name: Build and push
         uses: docker/build-push-action@v2
