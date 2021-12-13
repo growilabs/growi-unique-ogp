@@ -1,10 +1,11 @@
 const http = require('http');
-    url = require('url'),
-    fs = require('fs'),
-    jquery = require('jquery'),
-    jsdom = require('jsdom'),
-    jCanvas = require('jcanvas'),
-    unique_ogp = require('./unique_ogp.js');
+const url = require('url');
+
+const jquery = require('jquery');
+const jsdom = require('jsdom');
+const jCanvas = require('jcanvas');
+const unique_ogp = require('./unique_ogp.js');
+
 const { registerFont } = require('canvas');
 const Canvas = require('canvas');
 const { JSDOM } = jsdom;
@@ -23,11 +24,9 @@ var getArticon = function(title, brand, mode) {
     return canvas[0];
 };
 
-function atob(a) {
-    return Buffer.from(a, 'base64')
-}
-
 async function OgpAppController(request, response) {
+
+     // TODO: refactor and adjust design after ogp design is created
 
     if (request.method === 'GET') {
         let query = url.parse(request.url, true).query;
@@ -39,7 +38,6 @@ async function OgpAppController(request, response) {
             return response.end();
         }
         
-        // TODO: refactor and adjust design after ogp design is created
         const image = await Canvas.loadImage(OGP_IMAGE_PATH);
         const drawCanvas = new Canvas.createCanvas(1200, 640);
         const ctx = drawCanvas.getContext('2d');
