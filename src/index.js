@@ -68,4 +68,4 @@ async function OgpAppController(request, response) {
 const ogpServer = http.createServer();
 
 ogpServer.on('request', OgpAppController);
-ogpServer.listen(PORT, '0.0.0.0')
+ogpServer.listen(PORT, '0.0.0.0');
