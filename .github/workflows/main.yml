@@ -24,4 +24,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/weseek/growi-unique-ogp:beta
+          tags: latest
