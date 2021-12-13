@@ -11,3 +11,21 @@ jobs:
     steps:
     - name: say hello world
       run: echo "hello world"
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: wsmoogle
+        password: ${{ secrets.DOCKER_REGISTRY_ON_GITHUB_PASSWORD }}
+  
+      - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        platforms: linux/amd64
+        push: true
+        build-args: |
+          flavor=${{ matrix.flavor }}
+        tags: latest
