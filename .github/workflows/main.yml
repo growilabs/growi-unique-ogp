@@ -25,6 +25,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          build-args: |
-            flavor=${{ matrix.flavor }}
           tags: latest
