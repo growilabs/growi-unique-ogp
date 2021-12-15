@@ -4,9 +4,7 @@ on:
   push:
     branches-ignore:
       - release/**
-      - rc/**
-      - chore/**
-      - support/prepare-v**
+
   pull_request:
 
 jobs:
@@ -31,4 +29,5 @@ jobs:
         working-directory: ./src
         run: |
           npm install
-          node index.js
+ 
+      # TODO: check if server runs properly
