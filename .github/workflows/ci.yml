@@ -1,13 +1,33 @@
-name: ogp for growi
-on: push
+name: CI for unique ogp growi
+
+on:
+  push:
+    branches-ignore:
+      - release/**
+      - rc/**
+      - chore/**
+      - support/prepare-v**
+  pull_request:
 
 jobs:
 
-  my_test:
+  server:
+   runs-on: ubuntu-latest
 
-    name: my test action
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
 
     steps:
-    - name: say hello world
-      run: echo "hello world ?"
+      - name: Checkout
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: npm install
+        working-directory: ./src
+        run: |
+          npm install
