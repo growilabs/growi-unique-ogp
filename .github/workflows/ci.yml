@@ -31,3 +31,4 @@ jobs:
         working-directory: ./src
         run: |
           npm install
+          node index.js
