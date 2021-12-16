@@ -1,3 +1,12 @@
+class GrowiUniqueOGP {
+    static TEXT_COLOR = '#112744';
+
+    static getTextColor() {
+        return this.TEXT_COLOR;
+    }
+
+}
+
 var md5 = require("./md5.js"),
     color = require("onecolor");
 
@@ -85,7 +94,7 @@ exports.draw = function(canvas, title, brand, mode) {
 
     // Background
     canvas.drawRect({
-        fillStyle: getBackColor(h, mode),
+        fillStyle: "#ffffff",
         x: 1200/2, y: 630/2,
         width: 1200,
         height: 630,
@@ -94,6 +103,7 @@ exports.draw = function(canvas, title, brand, mode) {
     });
 
     // Small Bubbles
+    /*
     var bubble_count = (p1 + p2 + p3) % 50 + 30;
     for (var i =1; i < bubble_count; i++) {
         var x = ((i + p1) * (i + p4)) % 1200;
@@ -107,8 +117,10 @@ exports.draw = function(canvas, title, brand, mode) {
             cornerRadius: 50
         });
     }
+    */
 
     // Large Bubbles
+    /*
     var large_bubble_count = (p1 + p2 + p3) % 2 + 3;
     for (var i =1; i <= large_bubble_count; i++) {
         var x = (i * (300 + p4 - p5) + i * p2) % (1200 - 100) + 50;
@@ -122,8 +134,10 @@ exports.draw = function(canvas, title, brand, mode) {
             cornerRadius: 415
         });
     }
+    */
 
     // Title background
+    /*
     canvas.drawRect({
         fillStyle: "rgba(0, 0, 0, 0.8)",
         x: 1200/2,
@@ -131,13 +145,14 @@ exports.draw = function(canvas, title, brand, mode) {
         width: 1200,
         height: 140
     });
+    */
 
     // Brand
     canvas.drawText({
-        fillStyle: getTitleColor(h, mode),
+        fillStyle: GrowiUniqueOGP.getTextColor(),
         x: 1200/2,
         y: (630 - 140)/2,
-	shadowColor: getTitleColor(h, mode),
+	shadowColor: GrowiUniqueOGP.getTextColor(),
   	shadowBlur: 3,
 	shadowX: 3, shadowY: 3,
         fontSize: (1200 - 600) / (charcount(brand)/2 + 2),
@@ -145,14 +160,15 @@ exports.draw = function(canvas, title, brand, mode) {
         fontWeight: 900,
         text: brand,
     });
-    // Title
+
+    // user name (title)
     canvas.drawText({
-        fillStyle: "#ffffff",
+        fillStyle: GrowiUniqueOGP.getTextColor(),
         x: 1200/2,
         y: 630 - 70,
-        fontSize: (1200 - 50) / (charcount(title)/2 + 10),
+        fontSize: 56,
         fontFamily: "'noto'",
-        fontWeight: 900,
+        fontWeight: 500,
         text: title,
     });
 
@@ -168,6 +184,7 @@ exports.draw = function(canvas, title, brand, mode) {
     });
 
     //Brightness
+    /*
     canvas.drawPath({
         fillStyle: bright_style,
         strokeWidth: 0,
@@ -188,6 +205,7 @@ exports.draw = function(canvas, title, brand, mode) {
             x3: 0, y3: 0
         }
     });
+    */
 
     return canvas;
 };
