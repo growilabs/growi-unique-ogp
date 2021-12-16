@@ -8,3 +8,5 @@ COPY resources/ /ogp/resources/
 WORKDIR /ogp/src
 
 RUN ["/bin/bash", "-c", "npm install"]
+
+ENTRYPOINT node index.js

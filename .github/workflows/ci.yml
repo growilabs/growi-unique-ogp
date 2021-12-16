@@ -13,6 +13,7 @@ jobs:
 
     strategy:
       matrix:
+        # todo: update node version
         node-version: [12.x]
 
     steps:
@@ -23,6 +24,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
       - name: npm install
         working-directory: ./src
