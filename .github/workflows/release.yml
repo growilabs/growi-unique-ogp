@@ -36,7 +36,7 @@ jobs:
         with:
           registry: ghcr.io
           username: wsmoogle
-          password: ${{ secrets.OGP_PASSOWRD }}
+          password: ${{ secrets.OGP_PASSWORD }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
