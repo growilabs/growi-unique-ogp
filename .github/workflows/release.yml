@@ -5,6 +5,10 @@ on:
     branches:
       - release/**
     types: [closed]
+
+env:
+  repository_name: weseek/growi-unique-ogp
+
 jobs:
 
   build-push-release:
@@ -14,20 +18,38 @@ jobs:
     if: github.event.pull_request.merged == true
 
     steps:
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.base.ref }}
+
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images: ${{ env.repository_name }}, ghcr.io/${{ env.repository_name }}
+        tags: type=raw,value=latest
+
+    - name: Login to Dockerhub
+      uses: docker/login-action@v1
+      with:
+        username: wsmoogle
+        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: wsmoogle
+        password: ${{ secrets.OGP_PASSOWRD }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: wsmoogle
-          password: ${{ secrets.OGP_PAT }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -35,5 +57,5 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/weseek/growi-unique-ogp:latest
-      # TODO: push to dockerhub
+          tags: ${{ steps.meta.outputs.tags }}
+
