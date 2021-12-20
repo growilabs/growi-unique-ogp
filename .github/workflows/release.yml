@@ -1,10 +1,7 @@
 name: Release Docker Image for unique ogp growi
 
 on:
-  pull_request:
-    branches:
-      - release/**
-    types: [closed]
+  push:
 
 env:
   repository_name: weseek/growi-unique-ogp
@@ -13,8 +10,6 @@ jobs:
   build-push-release:
 
     runs-on: ubuntu-latest
-
-    if: github.event.pull_request.merged == true
 
     steps:
 
