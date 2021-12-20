@@ -10,11 +10,11 @@ env:
   repository_name: weseek/growi-unique-ogp
 
 jobs:
-
   build-push-release:
 
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+
+    if: github.event.pull_request.merged == true
 
     steps:
 
@@ -23,25 +23,25 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.ref }}
 
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v3
-      with:
-        images: ${{ env.repository_name }}, ghcr.io/${{ env.repository_name }}
-        tags: type=raw,value=latest
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.repository_name }}, ghcr.io/${{ env.repository_name }}
+          tags: type=raw,value=latest
 
-    - name: Login to Dockerhub
-      uses: docker/login-action@v1
-      with:
-        username: wsmoogle
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      - name: Login to Dockerhub
+        uses: docker/login-action@v1
+        with:
+          username: wsmoogle
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: wsmoogle
-        password: ${{ secrets.OGP_PASSOWRD }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: wsmoogle
+          password: ${{ secrets.OGP_PASSOWRD }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
