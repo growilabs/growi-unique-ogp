@@ -3,7 +3,7 @@ const url = require('url');
 const GrowiOgpDrawer  = require('./growi-ogp-drawer').GrowiOgpDrawer;
 const PORT = process.env.PORT || 8088;
 
-async function GrowiOgpController(request, response) {
+const growiOgpController = async(request, response) => {
 
     if (request.method === 'GET') {
         const query = url.parse(request.url, true).query;
@@ -11,7 +11,7 @@ async function GrowiOgpController(request, response) {
         const userName = query["userName"]
 
         if (title == null || userName == null) {
-            response.write("Add Query to this page. '?title=$TITLE&userName=$BRAND'");
+            response.write("Add Query to this page. '?title=$TITLE&userName=$userName'");
             return response.end();
         }
 
@@ -34,5 +34,5 @@ async function GrowiOgpController(request, response) {
 
 const growiOgpServer = http.createServer();
 
-growiOgpServer.on('request', GrowiOgpController);
+growiOgpServer.on('request', growiOgpController);
 growiOgpServer.listen(PORT, '0.0.0.0');

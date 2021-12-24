@@ -1,62 +1,66 @@
 const Canvas = require('canvas');
-// todo: if the the followings are unnesessary please remove
-// comment out temporarily
-// const { registerFont } = require('canvas');
 
 const GROWI_LOGO_IMAGE_PATH = '../resources/growi_logo.svg';
 const BACKGROUND_ACCENT_IMAGE_PATH = '../resources/growi_ogp_bg.svg';
 
-const TITLE_FONT_OPTIONS = 'bold 70px sans-serif';
+const TITLE_FONT_OPTIONS = '600 65px sans-serif';
 const USERNAME_FONT_OPTIONS = 'bold 40px sans-serif';
 
 const TEXT_COLOR = '#112744';
 const BACKGROUND_COLOR = "#ffffff";
 
-const OGP_IMAGE_WIDTH = 1200;
-const OGP_IMAGE_HEIGHT = 630;
 // for gradient line color
 const VERTEX_BEGINNING_COLOR = '#39c8ff';
 const VERTEX_END_COLOR = "#f32dff";
 
 const GRADIENT_LINE_WIDTH = 13;
 
+const TITLE_MAX_LINE_NUMBER = 3;
+const OGP_IMAGE_WIDTH = 1200;
+const OGP_IMAGE_HEIGHT = 630;
+
+
 exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
     constructor(
         title, userName,
         titleFontOptions, userNameFontOptions,
-        width, height,
-        textColor, backgroundColor, vertexBeginningColor, vertexEndColor, gradientLineWidth) {
+        textColor, backgroundColor,
+        vertexBeginningColor, vertexEndColor, gradientLineWidth,
+        titleMaxLineNumber,
+        width, height
+    ) {
 
         this.drawCanvas = new Canvas.createCanvas(OGP_IMAGE_WIDTH, OGP_IMAGE_HEIGHT);
         this.context = this.drawCanvas.getContext('2d');
-        this.textColor = textColor || TEXT_COLOR;
-        this.backgroundColor = backgroundColor || BACKGROUND_COLOR;
 
         this.title = title;
         this.userName = userName;
         this.titleFontOptions = titleFontOptions || TITLE_FONT_OPTIONS;
         this.userNameFontOptions = userNameFontOptions || USERNAME_FONT_OPTIONS;
 
-        this.imageWidth = width || OGP_IMAGE_WIDTH;
-        this.imageHeight = height || OGP_IMAGE_HEIGHT;
-        this.centerX = this.imageWidth / 2
-        this.centerY = this.imageHeight / 2
+        this.textColor = textColor || TEXT_COLOR;
+        this.backgroundColor = backgroundColor || BACKGROUND_COLOR;
 
         this.vertexBeginningColor = vertexBeginningColor || VERTEX_BEGINNING_COLOR;
         this.vertexEndColor = vertexEndColor || VERTEX_END_COLOR;
         this.gradientLineWidth = gradientLineWidth || GRADIENT_LINE_WIDTH;
-        
+
+        this.titleMaxLineNumber = titleMaxLineNumber || TITLE_MAX_LINE_NUMBER;
+
+        this.imageWidth = width || OGP_IMAGE_WIDTH;
+        this.imageHeight = height || OGP_IMAGE_HEIGHT;
+        this.centerX = this.imageWidth / 2;
+        this.centerY = this.imageHeight / 2;
     }
 
-    async drawBackgroundAndLogo(logoMarginTop) {
+    async drawBackgroundAndLogo(logoMarginTop = 40) {
         const growiLogoImage = await Canvas.loadImage(GROWI_LOGO_IMAGE_PATH);
         const backgroundAccentImage = await Canvas.loadImage(BACKGROUND_ACCENT_IMAGE_PATH);
-        const marginTop = logoMarginTop || 40;
 
         this.context.fillStyle = this.backgroundColor;
         this.context.fillRect(0, 0, this.imageWidth, this.imageHeight);
-        this.context.drawImage(growiLogoImage, this.centerX - (growiLogoImage.width/2), marginTop);
+        this.context.drawImage(growiLogoImage, this.centerX - (growiLogoImage.width/2), logoMarginTop);
         this.context.drawImage(backgroundAccentImage, 0, 0);
     }
 
@@ -75,7 +79,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
         this.context.beginPath();
         this.context.moveTo(0, yCoordinate);
         this.context.lineTo(this.imageWidth, yCoordinate);
-        this.context.lineWidth = this.gradientLineWidth ;
+        this.context.lineWidth = this.gradientLineWidth;
         this.context.stroke();
     }
 
@@ -88,44 +92,48 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     }
 
     setTextOption(fontOptions, textColor, textAlign, textBaseline) {
-        this.context.fillStyle = textColor || this.textColor;
         this.context.font = fontOptions;
+        this.context.fillStyle = textColor || this.textColor;
         this.context.textAlign = textAlign || 'center';
         this.context.textBaseline = textBaseline || 'middle';
     }
 
     /**
      *
-     * @param {number} fontSize like 70 wihtout px
-     * @param {string} font canvas font selecter like 'bold sans-serif' except fontsize(px)
+     * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
      */
     drawTitle(fontOptions, textColor, textAlign, textBaseline, MaxWidth) {
-        this.setTextOption(fontOptions, textColor, textAlign, textBaseline);
         
-        const fontSize = fontOptions.match(/(\d){1,3}px/)[0].replace('px', '');
-        const titleMaxWidth = MaxWidth || this.imageWidth * 0.6
+        const titleFontOptions = fontOptions || this.titleFontOptions;
+        this.setTextOption(titleFontOptions, textColor, textAlign, textBaseline);
+        
+        const fontSize = titleFontOptions.match(/(\d){1,3}px/)[0].replace('px', '');
+        const lineHeight = Number(fontSize) * 1.2;
+        const titleMaxWidth = MaxWidth || this.imageWidth * 0.75
 
-        this.drawWrapText(this.title, titleMaxWidth, Number(fontSize) * 1.15);
+        this.drawWrapText(this.title, titleMaxWidth, lineHeight, this.titleMaxLineNumber);
     }
 
     /**
      *
-     * @param {number} fontSize like 70 wihtout px
-     * @param {string} font canvas font selecter like 'bold sans-serif' except fontsize(px)
+     * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
      */
     drawByUserName(fontOptions, textColor, textAlign, textBaseline, marginBottom = 50) {
-        this.setTextOption(fontOptions, textColor, textAlign, textBaseline);
+
+        const userNameFontOptions = fontOptions || this.userNameFontOptions;
+        this.setTextOption(userNameFontOptions, textColor, textAlign, textBaseline);
 
         const byUserName = `by ${this.userName}`
     
         this.context.fillText(byUserName, this.centerX, this.imageHeight - marginBottom);
     }
 
-    drawWrapText(text, maxWidth, lineHeight, maxLineNumber = 3) {
+    drawWrapText(text, maxWidth, lineHeight, maxLineNumber) {
     
         let textLines = [];
     
         const words = text.split(' ');
+
         let line = '';
         let test = '';
         let metrics;
@@ -159,27 +167,39 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
         textLines.push(line);
 
-        if (textLines.length >= maxLineNumber) {
-            
-            let lastLineElement = textLines[2];
-            const hasSpaceLanguage = lastLineElement.includes(" ");
+        // in this line
+        // each element of textLines has unnesessary last space
+        // like ['blabla ', 'blabla ', 'blablablabla ']
 
+        if (textLines.length > maxLineNumber) {
+            
+            const lastIndex = maxLineNumber - 1;
+            let lastLineElement = textLines[lastIndex];
+
+            const lastLineElementHasNoLastSpace = lastLineElement.substring(0, lastLineElement.length - 1);
+            
+            const hasSpaceLanguage = lastLineElementHasNoLastSpace.includes(" ");
+
+            // text truncation
             if (hasSpaceLanguage) {
-                // text truncation
-                const matchedText = lastLineElement.match(/^(.)*\s/)[0];
-                textLines[2] = `${matchedText}...`;
+                const matchedText = lastLineElementHasNoLastSpace.match(/^(.)*\s/)[0];
+                textLines[lastIndex] = `${matchedText} ...`;
             }
             else {
-                textLines[2] = lastLineElement.replace(/(.){3}$/,"...")      
+                textLines[lastIndex] = `${lastLineElement.substring(0, lastLineElement.length - 3)}...`;     
             }
     
-            textLines = textLines.slice(0,3);
+            textLines = textLines.slice(0, maxLineNumber);
         }
 
         textLines.forEach((line, index) => {
             // shift vertical middle position by line number
             // this.centerY + (index)*lineHeight + 0.5(index-1)*lineHeight
-            this.context.fillText(line, this.centerX, this.centerY + (index)*lineHeight - 0.5*lineHeight*(textLines.length-1));
+            this.context.fillText(
+                index === textLines.length && /\.{3}$/.test(line) ? line : line.substring(0, text.length - 1),
+                this.centerX,
+                this.centerY + (index)*lineHeight - 0.5*lineHeight*(textLines.length-1)
+            );
         })
     }
 
@@ -189,10 +209,10 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
         this.drawTopLinearGradient();
         this.drawBottomLinearGradient();
-        this.drawTitle(this.titleFontOptions);
+        this.drawTitle();
 
-        // todo: ↓ if user image is placed before username method name must be changed
-        this.drawByUserName(this.userNameFontOptions);
+        // todo: ↓ if user image is placed before username method the method name must be changed
+        this.drawByUserName();
 
         return this.drawCanvas;
 
