@@ -9,7 +9,7 @@
   "author": "kimihiro_n",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^2.6.0",
+    "canvas": "^2.8.0",
     "jcanvas": "^21.0.1",
     "jquery": "^3.5.0",
     "jsdom": "^15.1.1",
