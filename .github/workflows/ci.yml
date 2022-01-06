@@ -24,6 +24,10 @@ jobs:
         working-directory: ./
         run: |
           npm install
+      - name: debug npm list
+        working-directory: ./
+        run: |
+          npm list
       - name: npm run lint
         working-directory: ./
         run: |
