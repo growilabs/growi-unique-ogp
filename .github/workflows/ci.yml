@@ -1,8 +1,10 @@
 name: CI for unique ogp growi
+
 on:
   push:
   pull_request:
     types: [opened, closed]
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -41,3 +43,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: './src/package-lock.json'
+      - name: npm install
+        working-directory: ./src
+        run: |
+          npm install
