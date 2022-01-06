@@ -1,4 +1,4 @@
-name: CI for unique ogp growi
+name: ci for growi unique ogp
 
 on:
   push:

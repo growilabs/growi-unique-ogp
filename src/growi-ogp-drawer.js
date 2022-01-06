@@ -60,29 +60,18 @@ export default class GrowiOgpDrawer {
 
   async drawBackgroundAndLogo(logoMarginTop = 40) {
     const growiLogoImage = await Canvas.loadImage(GROWI_LOGO_IMAGE_PATH);
-    const backgroundAccentImage = await Canvas.loadImage(
-      BACKGROUND_ACCENT_IMAGE_PATH,
-    );
+    const backgroundAccentImage = await Canvas.loadImage(BACKGROUND_ACCENT_IMAGE_PATH);
 
     this.context.fillStyle = this.backgroundColor;
     this.context.fillRect(0, 0, this.imageWidth, this.imageHeight);
-    this.context.drawImage(
-      growiLogoImage,
-      this.centerX - growiLogoImage.width / 2,
-      logoMarginTop,
-    );
+    this.context.drawImage(growiLogoImage, this.centerX - growiLogoImage.width / 2, logoMarginTop);
     this.context.drawImage(backgroundAccentImage, 0, 0);
   }
 
   drawHorizontalLinearGradient(yCoordinate, reverse = false) {
     const gradient = reverse
       ? this.context.createLinearGradient(0, 0, this.imageWidth, 0)
-      : this.context.createLinearGradient(
-          this.imageWidth,
-          this.imageHeight,
-          0,
-          this.imageHeight,
-        );
+      : this.context.createLinearGradient(this.imageWidth, this.imageHeight, 0, this.imageHeight);
     gradient.addColorStop(0.3, this.vertexBeginningColor);
     gradient.addColorStop(1, this.vertexEndColor);
 
@@ -122,35 +111,20 @@ export default class GrowiOgpDrawer {
     const lineHeight = Number(fontSize) * 1.2;
     const titleMaxWidth = MaxWidth || this.imageWidth * 0.75;
 
-    this.drawWrapText(
-      this.title,
-      titleMaxWidth,
-      lineHeight,
-      this.titleMaxLineNumber,
-    );
+    this.drawWrapText(this.title, titleMaxWidth, lineHeight, this.titleMaxLineNumber);
   }
 
   /**
    *
    * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
    */
-  drawByUserName(
-    fontOptions,
-    textColor,
-    textAlign,
-    textBaseline,
-    marginBottom = 50,
-  ) {
+  drawByUserName(fontOptions, textColor, textAlign, textBaseline, marginBottom = 50) {
     const userNameFontOptions = fontOptions || this.userNameFontOptions;
     this.setTextOption(userNameFontOptions, textColor, textAlign, textBaseline);
 
     const byUserName = `by ${this.userName}`;
 
-    this.context.fillText(
-      byUserName,
-      this.centerX,
-      this.imageHeight - marginBottom,
-    );
+    this.context.fillText(byUserName, this.centerX, this.imageHeight - marginBottom);
   }
 
   drawWrapText(text, maxWidth, lineHeight, maxLineNumber) {
@@ -198,10 +172,7 @@ export default class GrowiOgpDrawer {
       const lastIndex = maxLineNumber - 1;
       const lastLineElement = textLines[lastIndex];
 
-      const lastLineElementHasNoLastSpace = lastLineElement.substring(
-        0,
-        lastLineElement.length - 1,
-      );
+      const lastLineElementHasNoLastSpace = lastLineElement.substring(0, lastLineElement.length - 1);
 
       const hasSpaceLanguage = lastLineElementHasNoLastSpace.includes(' ');
 
@@ -210,10 +181,7 @@ export default class GrowiOgpDrawer {
         const matchedText = lastLineElementHasNoLastSpace.match(/^(.)*\s/)[0];
         textLines[lastIndex] = `${matchedText} ...`;
       } else {
-        textLines[lastIndex] = `${lastLineElement.substring(
-          0,
-          lastLineElement.length - 3,
-        )}...`;
+        textLines[lastIndex] = `${lastLineElement.substring(0, lastLineElement.length - 3)}...`;
       }
 
       textLines = textLines.slice(0, maxLineNumber);
@@ -223,13 +191,9 @@ export default class GrowiOgpDrawer {
       // shift vertical middle position by line number
       // this.centerY + (index)*lineHeight + 0.5(index-1)*lineHeight
       this.context.fillText(
-        index === textLines.length && /\.{3}$/.test(line)
-          ? line
-          : line.substring(0, text.length - 1),
+        index === textLines.length && /\.{3}$/.test(line) ? line : line.substring(0, text.length - 1),
         this.centerX,
-        this.centerY +
-          index * lineHeight -
-          0.5 * lineHeight * (textLines.length - 1),
+        this.centerY + index * lineHeight - 0.5 * lineHeight * (textLines.length - 1),
       );
     });
   }

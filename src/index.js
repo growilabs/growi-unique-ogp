@@ -11,18 +11,13 @@ const growiOgpController = async (request, response) => {
     const userName = query.userName;
 
     if (title == null || userName == null) {
-      response.write(
-        "Add Query to this page. '?title=$TITLE&userName=$userName'",
-      );
+      response.write("Add Query to this page. '?title=$TITLE&userName=$userName'");
       return response.end();
     }
 
     const growiOgpDrawer = new GrowiOgpDrawer(title, userName);
     const ogpCanvas = await growiOgpDrawer.drawOgp();
-    const bufferedOgpImage = Buffer.from(
-      ogpCanvas.toDataURL().split(',')[1],
-      'base64',
-    );
+    const bufferedOgpImage = Buffer.from(ogpCanvas.toDataURL().split(',')[1], 'base64');
 
     response.writeHead(200, {
       'Content-Type': 'image/png',
