@@ -1,14 +1,13 @@
 {
+  "name": "growi-ogp",
+  "version": "0.0.0",
   "scripts": {
-    "lint": "eslint ./src/*.js",
-    "start": "babel-node ./src/index.js"
+    "lint": "eslint ./src/*.js"
   },
   "standard": {
     "parser": "@babel/eslint-parser"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.5.1"

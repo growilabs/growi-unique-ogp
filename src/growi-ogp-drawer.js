@@ -1,8 +1,8 @@
 import Canvas from 'canvas';
 
 // the following pathes depend on the excuted directory
-const GROWI_LOGO_IMAGE_PATH = './resources/growi_logo.svg';
-const BACKGROUND_ACCENT_IMAGE_PATH = './resources/growi_ogp_bg.svg';
+const GROWI_LOGO_IMAGE_PATH = '../resources/growi_logo.svg';
+const BACKGROUND_ACCENT_IMAGE_PATH = '../resources/growi_ogp_bg.svg';
 
 const TITLE_FONT_OPTIONS = '600 65px sans-serif';
 const USERNAME_FONT_OPTIONS = 'bold 40px sans-serif';
