@@ -1,35 +1,43 @@
 name: CI for unique ogp growi
-
 on:
   push:
-
   pull_request:
     types: [opened, closed]
-
 jobs:
-
-  server:
+  lint:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        # todo: update node version
-        node-version: [12.x]
-
+        node-version: [16.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
+          cache-dependency-path: './package-lock.json'
       - name: npm install
-        working-directory: ./src
+        working-directory: ./
         run: |
           npm install
- 
-      # TODO: check if server runs properly
+      - name: npm run lint
+        working-directory: ./
+        run: |
+          npm run lint
+  test:
+    # TODO: add test by using jest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: './src/package-lock.json'
