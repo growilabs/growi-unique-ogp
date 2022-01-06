@@ -10,6 +10,8 @@ const growiOgpController = async (request, response) => {
     const title = query.title;
     const userName = query.userName;
 
+    var a = 1;
+
     if (title == null || userName == null) {
       response.write(
         "Add Query to this page. '?title=$TITLE&userName=$userName'",
