@@ -1,0 +1,15 @@
+{
+	"name": "GROWI-OGP-Dev",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "node",
+	"workspaceFolder": "/workspace/growi-ogp",
+	"settings": {
+	},
+	"extensions": [
+	  "mhutchie.git-graph",
+	  "eamodio.gitlens",
+	  "github.vscode-pull-request-github",
+	  "cschleiden.vscode-github-actions"
+	],
+	"remoteUser": "node"
+  }
