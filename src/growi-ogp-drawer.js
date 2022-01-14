@@ -21,19 +21,20 @@ const OGP_IMAGE_WIDTH = 1200;
 const OGP_IMAGE_HEIGHT = 630;
 
 export default class GrowiOgpDrawer {
+
   constructor(
-    title,
-    userName,
-    titleFontOptions,
-    userNameFontOptions,
-    textColor,
-    backgroundColor,
-    vertexBeginningColor,
-    vertexEndColor,
-    gradientLineWidth,
-    titleMaxLineNumber,
-    width,
-    height,
+      title,
+      userName,
+      titleFontOptions,
+      userNameFontOptions,
+      textColor,
+      backgroundColor,
+      vertexBeginningColor,
+      vertexEndColor,
+      gradientLineWidth,
+      titleMaxLineNumber,
+      width,
+      height,
   ) {
     this.drawCanvas = Canvas.createCanvas(OGP_IMAGE_WIDTH, OGP_IMAGE_HEIGHT);
     this.context = this.drawCanvas.getContext('2d');
@@ -157,7 +158,8 @@ export default class GrowiOgpDrawer {
       if (metrics.width > maxWidth && i > 0) {
         textLines.push(line);
         line = `${words[i]} `;
-      } else {
+      }
+      else {
         line = test;
       }
     }
@@ -180,7 +182,8 @@ export default class GrowiOgpDrawer {
       if (hasSpaceLanguage) {
         const matchedText = lastLineElementHasNoLastSpace.match(/^(.)*\s/)[0];
         textLines[lastIndex] = `${matchedText} ...`;
-      } else {
+      }
+      else {
         textLines[lastIndex] = `${lastLineElement.substring(0, lastLineElement.length - 3)}...`;
       }
 
@@ -210,4 +213,5 @@ export default class GrowiOgpDrawer {
 
     return this.drawCanvas;
   }
+
 }

@@ -4,7 +4,7 @@ import GrowiOgpDrawer from './growi-ogp-drawer';
 
 const PORT = process.env.PORT || 8088;
 
-const growiOgpController = async (request, response) => {
+const growiOgpController = async(request, response) => {
   if (request.method === 'GET') {
     const query = url.parse(request.url, true).query;
     const title = query.title;
