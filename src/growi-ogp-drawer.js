@@ -24,6 +24,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
     constructor(
         title, userName,
+        bufferedUserImage,
         titleFontOptions, userNameFontOptions,
         textColor, backgroundColor,
         vertexBeginningColor, vertexEndColor, gradientLineWidth,
@@ -36,6 +37,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
         this.title = title;
         this.userName = userName;
+        this.bufferedUserImage = bufferedUserImage;
         this.titleFontOptions = titleFontOptions || TITLE_FONT_OPTIONS;
         this.userNameFontOptions = userNameFontOptions || USERNAME_FONT_OPTIONS;
 
@@ -124,6 +126,12 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
         this.setTextOption(userNameFontOptions, textColor, textAlign, textBaseline);
 
         const byUserName = `by ${this.userName}`
+
+        // the following lines are saved temporaly
+        let image = new Canvas.Image;
+        image.src = Buffer.from(this.bufferedUserImage);
+        const met = this.context.measureText(byUserName).width;
+        this.context.drawImage(image,this.centerX - (met / 2) - 80, this.imageHeight - marginBottom - 20, 50, 50)
     
         this.context.fillText(byUserName, this.centerX, this.imageHeight - marginBottom);
     }
