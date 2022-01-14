@@ -19,3 +19,4 @@ RUN chown -R $USER_UID:$USER_GID /home/$USERNAME /workspace;
 
 RUN apt-get update \
     && apt-get install -y fonts-noto-cjk
+    
