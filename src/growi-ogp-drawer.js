@@ -191,7 +191,7 @@ export default class GrowiOgpDrawer {
       // shift vertical middle position by line number
       // this.centerY + (index)*lineHeight + 0.5(index-1)*lineHeight
       this.context.fillText(
-        index === textLines.length && /\.{3}$/.test(line) ? line : line.substring(0, text.length - 1),
+        index === textLines.length && /\.{3}$/.test(line) ? line : line.substring(0, line.length - 1),
         this.centerX,
         this.centerY + index * lineHeight - 0.5 * lineHeight * (textLines.length - 1),
       );
