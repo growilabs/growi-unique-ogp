@@ -4,7 +4,7 @@
   "service": "node",
   "workspaceFolder": "/workspace/growi-ogp",
   "settings": {
-    "eslint.workingDirectories": [{ "mode": "auto" }],
+    "eslint.workingDirectories": ["/workspace/growi-ogp"],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
@@ -15,5 +15,6 @@
     "eamodio.gitlens",
     "github.vscode-pull-request-github",
     "cschleiden.vscode-github-actions"
-  ]
+  ],
+  "remoteUser": "node"
 }

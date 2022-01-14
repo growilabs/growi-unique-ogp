@@ -6,7 +6,7 @@
   },
   "parser": "@babel/eslint-parser",
   "globals": {},
-  "extends": ["weseek", "eslint-config-prettier"],
+  "extends": ["weseek"],
   "parserOptions": {
     "ecmaVersion": 12,
     "sourceType": "module",
