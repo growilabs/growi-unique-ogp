@@ -5,12 +5,12 @@
   "workspaceFolder": "/workspace/growi-ogp",
   "settings": {
     "eslint.workingDirectories": ["/workspace/growi-ogp"],
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
   },
   "extensions": [
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
     "mhutchie.git-graph",
     "eamodio.gitlens",
     "github.vscode-pull-request-github",
