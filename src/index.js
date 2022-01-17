@@ -13,17 +13,14 @@ const growiOgpController = async(request, response) => {
         request.on('end', async() => {
             title = JSON.parse(body).data.title;
             userName =  JSON.parse(body).data.userName;
-            userImage = JSON.parse(body).data.userImage;
-            
-            console.log('log::', title, userName, userImage);
+            bufferedUserImage = JSON.parse(body).data.userImage;
 
-            if (title == null || userName == null) {
-                console.log('null');
-                response.write("Add Query to this page. '?title=$TITLE&userName=$userName'");
+            if (title == null || userName == null || bufferedUserImage == null) {
+                response.write("Add title, userName and userImage in request body");
                 return response.end();
             }
     
-            const growiOgpDrawer = new GrowiOgpDrawer(title, userName, userImage);
+            const growiOgpDrawer = new GrowiOgpDrawer(title, userName, bufferedUserImage);
             const ogpCanvas = await growiOgpDrawer.drawOgp();
             const bufferedOgpImage = new Buffer.from(ogpCanvas.toDataURL().split(',')[1], 'base64');
     
@@ -34,14 +31,6 @@ const growiOgpController = async(request, response) => {
             response.write(bufferedOgpImage);
             response.end();
         })
-
-        /*
-        const query = url.parse(request.url, true).query;
-        const title = query["title"];
-        const userName = query["userName"]
-        */
-
-
 
     }
 
