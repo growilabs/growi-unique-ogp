@@ -24,6 +24,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
     constructor(
         title, userName,
+        bufferedUserImage,
         titleFontOptions, userNameFontOptions,
         textColor, backgroundColor,
         vertexBeginningColor, vertexEndColor, gradientLineWidth,
@@ -36,6 +37,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
         this.title = title;
         this.userName = userName;
+        this.bufferedUserImage = bufferedUserImage;
         this.titleFontOptions = titleFontOptions || TITLE_FONT_OPTIONS;
         this.userNameFontOptions = userNameFontOptions || USERNAME_FONT_OPTIONS;
 
@@ -118,14 +120,19 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
      *
      * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
      */
-    drawByUserName(fontOptions, textColor, textAlign, textBaseline, marginBottom = 50) {
+     drawUserNameAndImage(fontOptions, textColor, textAlign, textBaseline, userNameAndImageMargin = 55, marginBottom = 50, userImageSize = 40) {
 
         const userNameFontOptions = fontOptions || this.userNameFontOptions;
         this.setTextOption(userNameFontOptions, textColor, textAlign, textBaseline);
 
-        const byUserName = `by ${this.userName}`
-    
-        this.context.fillText(byUserName, this.centerX, this.imageHeight - marginBottom);
+        const image = new Canvas.Image();
+        image.src = Buffer.from(this.bufferedUserImage);
+
+        const userNameWidth = this.context.measureText(this.userName).width;
+        
+        // todo: adjust position and image will be rounded
+        this.context.drawImage(image, this.centerX - (userNameWidth / 2) - userNameAndImageMargin, this.imageHeight - marginBottom - (userImageSize/2) , userImageSize, userImageSize);
+        this.context.fillText(this.userName, this.centerX, this.imageHeight - marginBottom);
     }
 
     drawWrapText(text, maxWidth, lineHeight, maxLineNumber) {
@@ -192,11 +199,13 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
             textLines = textLines.slice(0, maxLineNumber);
         }
 
+        // todo: move the following operation to other method 
+        // and write unit test
         textLines.forEach((line, index) => {
             // shift vertical middle position by line number
             // this.centerY + (index)*lineHeight + 0.5(index-1)*lineHeight
             this.context.fillText(
-                index === textLines.length && /\.{3}$/.test(line) ? line : line.substring(0, text.length - 1),
+                index === textLines.length && /\.{3}$/.test(line) ? line : line.substring(0, line.length - 1),
                 this.centerX,
                 this.centerY + (index)*lineHeight - 0.5*lineHeight*(textLines.length-1)
             );
@@ -210,9 +219,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
         this.drawTopLinearGradient();
         this.drawBottomLinearGradient();
         this.drawTitle();
-
-        // todo: ↓ if user image is placed before username method the method name must be changed
-        this.drawByUserName();
+        this.drawUserNameAndImage();
 
         return this.drawCanvas;
 
