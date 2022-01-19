@@ -13,6 +13,7 @@
 	},
 	"extensions": [
 	  "dbaeumer.vscode-eslint",
+	  "editorconfig.editorconfig",
 	  "mhutchie.git-graph",
 	  "eamodio.gitlens",
 	  "github.vscode-pull-request-github",
