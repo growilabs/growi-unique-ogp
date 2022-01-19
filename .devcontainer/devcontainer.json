@@ -4,8 +4,15 @@
 	"service": "node",
 	"workspaceFolder": "/workspace/growi-ogp",
 	"settings": {
+		"[javascript]": {
+			"editor.formatOnSave": false
+		  },
+		"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true,
+		}
 	},
 	"extensions": [
+	  "dbaeumer.vscode-eslint",
 	  "mhutchie.git-graph",
 	  "eamodio.gitlens",
 	  "github.vscode-pull-request-github",
