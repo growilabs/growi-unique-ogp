@@ -12,7 +12,7 @@ const growiOgpController = async(request, response) => {
     let bufferedUserImage;
 
     request.on('data', (data) => {
-      body += data;
+      body = `${body}${data}`;
     });
     request.on('end', async() => {
       title = JSON.parse(body).data.title;

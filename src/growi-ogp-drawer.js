@@ -1,4 +1,4 @@
-const Canvas;
+const Canvas = require('canvas');
 const { createCanvas } = require('canvas');
 
 const GROWI_LOGO_IMAGE_PATH = '../resources/growi_logo.svg';
