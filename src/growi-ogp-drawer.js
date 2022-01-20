@@ -129,10 +129,25 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
         image.src = Buffer.from(this.bufferedUserImage);
 
         const userNameWidth = this.context.measureText(this.userName).width;
-        
-        // todo: adjust position and image will be rounded
-        this.context.drawImage(image, this.centerX - (userNameWidth / 2) - userNameAndImageMargin, this.imageHeight - marginBottom - (userImageSize/2) , userImageSize, userImageSize);
+
         this.context.fillText(this.userName, this.centerX, this.imageHeight - marginBottom);
+        
+        //
+        // todo: adjust all positions based on entire image
+        // 
+
+        // rounded image
+        this.context.beginPath();
+        this.context.arc(
+            this.centerX - (userNameWidth / 2) - userNameAndImageMargin + userImageSize/2,
+            this.imageHeight - marginBottom - (userImageSize/2) + userImageSize/2,
+            20, // radius
+            0,
+            Math.PI*2,
+            false,
+        );
+        this.context.clip();
+        this.context.drawImage(image, this.centerX - (userNameWidth / 2) - userNameAndImageMargin, this.imageHeight - marginBottom - (userImageSize/2) , userImageSize, userImageSize);
     }
 
     drawWrapText(text, maxWidth, lineHeight, maxLineNumber) {
