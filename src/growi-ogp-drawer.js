@@ -106,9 +106,9 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
   }
 
   /**
-     *
-     * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
-     */
+   *
+   * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
+   */
   drawTitle(fontOptions, textColor, textAlign, textBaseline, MaxWidth) {
 
     const titleFontOptions = fontOptions || this.titleFontOptions;
@@ -122,9 +122,9 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
   }
 
   /**
-     *
-     * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
-     */
+   *
+   * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
+  */
   drawUserNameAndImage(fontOptions, textColor, textAlign, textBaseline, userNameAndImageMargin = 55, marginBottom = 50, userImageSize = 40) {
 
     const userNameFontOptions = fontOptions || this.userNameFontOptions;
@@ -160,7 +160,6 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
       userImageSize,
     );
   }
-
 
   drawWrapText(text, maxWidth, lineHeight, maxLineNumber) {
 
