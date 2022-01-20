@@ -1,10 +1,9 @@
 const http = require('http');
-const GrowiOgpDrawer = require('./growi-ogp-drawer').GrowiOgpDrawer;
+const { GrowiOgpDrawer } = require('./growi-ogp-drawer');
 
 const PORT = process.env.PORT || 8088;
 
 const growiOgpController = async(request, response) => {
-
   if (request.method === 'POST') {
     let body = '';
     let title;
@@ -15,8 +14,7 @@ const growiOgpController = async(request, response) => {
       body = `${body}${data}`;
     });
     request.on('end', async() => {
-      title = JSON.parse(body).data.title;
-      userName = JSON.parse(body).data.userName;
+      ({ title, userName } = JSON.parse(body).data);
       bufferedUserImage = JSON.parse(body).data.userImage;
 
       if (title == null || userName == null || bufferedUserImage == null) {
@@ -35,9 +33,7 @@ const growiOgpController = async(request, response) => {
       response.write(bufferedOgpImage);
       response.end();
     });
-
   }
-
 };
 
 const growiOgpServer = http.createServer();
