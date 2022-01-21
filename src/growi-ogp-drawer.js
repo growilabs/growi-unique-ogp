@@ -106,9 +106,9 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
   }
 
   /**
-     *
-     * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
-     */
+   *
+   * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
+   */
   drawTitle(fontOptions, textColor, textAlign, textBaseline, MaxWidth) {
 
     const titleFontOptions = fontOptions || this.titleFontOptions;
@@ -122,9 +122,9 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
   }
 
   /**
-     *
-     * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
-     */
+   *
+   * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
+  */
   drawUserNameAndImage(fontOptions, textColor, textAlign, textBaseline, userNameAndImageMargin = 55, marginBottom = 50, userImageSize = 40) {
 
     const userNameFontOptions = fontOptions || this.userNameFontOptions;
@@ -135,7 +135,23 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
     const userNameWidth = this.context.measureText(this.userName).width;
 
-    // todo: adjust position and image will be rounded
+    this.context.fillText(this.userName, this.centerX, this.imageHeight - marginBottom);
+
+    //
+    // todo: adjust all positions based on entire image
+    //
+
+    // rounded image
+    this.context.beginPath();
+    this.context.arc(
+      this.centerX - (userNameWidth / 2) - userNameAndImageMargin + userImageSize / 2,
+      this.imageHeight - marginBottom - (userImageSize / 2) + userImageSize / 2,
+      20, // radius
+      0,
+      Math.PI * 2,
+      false,
+    );
+    this.context.clip();
     this.context.drawImage(
       image,
       this.centerX - (userNameWidth / 2) - userNameAndImageMargin,
@@ -143,7 +159,6 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
       userImageSize,
       userImageSize,
     );
-    this.context.fillText(this.userName, this.centerX, this.imageHeight - marginBottom);
   }
 
   drawWrapText(text, maxWidth, lineHeight, maxLineNumber) {
