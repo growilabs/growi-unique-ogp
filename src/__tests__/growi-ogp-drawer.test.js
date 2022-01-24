@@ -10,6 +10,21 @@ describe('GrowiOgpDrawer', () => {
 
     const growiOgpDrawer = new GrowiOgpDrawer('dummyTitle', 'dummyUserName', Buffer.from('dummyBuf'));
 
+    describe('all language', () => {
+      test('no title text', () => {
+        const noTitle = '';
+        const wrappedTitleList = growiOgpDrawer.createWrappedText(
+          noTitle,
+          maxWidthOgpImage,
+          maxTitleLineNumber,
+        );
+        const lastIndex = wrappedTitleList.length - 1;
+        expect(wrappedTitleList).toHaveLength(1);
+        // expect not text truncation
+        expect(wrappedTitleList[lastIndex]).toBe(noTitle);
+      });
+    });
+
     describe('has no space language', () => {
       test('japanese long title text', () => {
         const japaneseTitle = 'これはタイトルです'.repeat(100);
