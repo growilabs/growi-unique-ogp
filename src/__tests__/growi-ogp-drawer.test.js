@@ -20,6 +20,7 @@ describe('GrowiOgpDrawer', () => {
         );
         const lastIndex = wrappedTitleList.length - 1;
         expect(wrappedTitleList).toHaveLength(maxTitleLineNumber);
+        // expect text truncation
         expect(wrappedTitleList[lastIndex]).toMatch(/^(.)*(\.){3}$/);
       });
 
@@ -31,6 +32,7 @@ describe('GrowiOgpDrawer', () => {
           maxTitleLineNumber,
         );
         expect(wrappedTitleList).toHaveLength(1);
+        // expect not text truncation
         expect(japaneseTitle).toBe(wrappedTitleList[0]);
       });
     });
@@ -44,6 +46,7 @@ describe('GrowiOgpDrawer', () => {
           maxTitleLineNumber,
         );
         const lastIndex = wrappedTitleList.length - 1;
+        // expect text truncation
         expect(wrappedTitleList[lastIndex]).toMatch(/^(.)*(\s)(\.){3}$/);
       });
 
@@ -55,6 +58,7 @@ describe('GrowiOgpDrawer', () => {
           maxTitleLineNumber,
         );
         expect(wrappedTitleList).toHaveLength(1);
+        // expect not text truncation
         expect(englishTitle).toBe(wrappedTitleList[0]);
       });
     });
