@@ -258,7 +258,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     }
     else {
       textLinesHasNoLastSpace = textLines.map((line, index) => {
-        // pass last element because it is truncated
+        // return last element because it is truncated
         if (index === textLines.length - 1) {
           return line;
         }
