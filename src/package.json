@@ -4,7 +4,7 @@
   "description": "UniqueOGP automatically produces inherent OGP image from the character string of the title.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "kimihiro_n",
   "license": "MIT",
@@ -17,6 +17,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^8.7.0",
     "eslint-config-weseek": "^1.1.0",
-    "eslint-plugin-import": "^2.25.4"
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.4.7"
   }
 }

@@ -3,6 +3,9 @@ module.exports = {
   parserOptions: {
     requireConfigFile: false,
   },
+  env: {
+    jest: true,
+  },
   extends: [
     'weseek',
   ],
