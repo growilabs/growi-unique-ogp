@@ -10,7 +10,7 @@ describe('GrowiOgpDrawer', () => {
 
     const growiOgpDrawer = new GrowiOgpDrawer('dummyTitle', 'dummyUserName', Buffer.from('dummyBuf'));
 
-    describe('japanese', () => {
+    describe('has no space language', () => {
       test('japanese long title text', () => {
         const japaneseTitle = 'これはタイトルです'.repeat(100);
         const wrappedTitleList = growiOgpDrawer.createWrappedText(
@@ -19,6 +19,7 @@ describe('GrowiOgpDrawer', () => {
           maxTitleLineNumber,
         );
         const lastIndex = wrappedTitleList.length - 1;
+        expect(wrappedTitleList).toHaveLength(maxTitleLineNumber);
         expect(wrappedTitleList[lastIndex]).toMatch(/^(.)*(\.){3}$/);
       });
 
@@ -34,7 +35,7 @@ describe('GrowiOgpDrawer', () => {
       });
     });
 
-    describe('English', () => {
+    describe('has space language', () => {
       test('English long title text', () => {
         const englishTitle = 'this is a long title '.repeat(100);
         const wrappedTitleList = growiOgpDrawer.createWrappedText(
