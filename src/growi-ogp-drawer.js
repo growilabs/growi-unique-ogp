@@ -118,7 +118,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     const lineHeight = Number(fontSize) * 1.2;
     const titleMaxWidth = MaxWidth || this.imageWidth * 0.75;
 
-    this.drawWrapText(this.title, titleMaxWidth, lineHeight, this.titleMaxLineNumber);
+    this.drawWrappedText(this.createWrappedText(this.title, titleMaxWidth, this.titleMaxLineNumber), lineHeight);
   }
 
   /**
@@ -161,7 +161,32 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     );
   }
 
-  drawWrapText(text, maxWidth, lineHeight, maxLineNumber) {
+  /**
+   * draw ogp title splited by one line like ['ogp title is', 'something']
+   * @param {Array} textLines: ogp title
+   * @param {number} lineHeight: ogp title line height
+   */
+  drawWrappedText(textLines, lineHeight) {
+
+    textLines.forEach((line, index) => {
+      // shift vertical middle position by line number
+      // this.centerY + (index)*lineHeight + 0.5(index-1)*lineHeight
+      this.context.fillText(
+        line,
+        this.centerX,
+        this.centerY + (index) * lineHeight - 0.5 * lineHeight * (textLines.length - 1),
+      );
+    });
+  }
+
+  /**
+   * convert ogp title to array splited by one line like ['ogp title is', 'something']
+   * @param {string} text: ogp title
+   * @param {number} maxWidth: ogp title max width
+   * @param {number} maxLineNumber
+   * @return {Array}
+   */
+  createWrappedText(text, maxWidth, maxLineNumber) {
 
     let textLines = [];
 
@@ -171,6 +196,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     let test = '';
     let metrics;
 
+    // words length is changed in for loop
     for (let i = 0; i < words.length; i++) {
       test = words[i];
       metrics = this.context.measureText(test);
@@ -225,17 +251,34 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
       textLines = textLines.slice(0, maxLineNumber);
     }
 
-    // todo: move the following operation to other method
-    // and write unit test
-    textLines.forEach((line, index) => {
-      // shift vertical middle position by line number
-      // this.centerY + (index)*lineHeight + 0.5(index-1)*lineHeight
-      this.context.fillText(
-        index === textLines.length && /\.{3}$/.test(line) ? line : line.substring(0, line.length - 1),
-        this.centerX,
-        this.centerY + (index) * lineHeight - 0.5 * lineHeight * (textLines.length - 1),
-      );
-    });
+    let textLinesHasNoLastSpace = [];
+
+    if (textLines.length === 1) {
+      textLinesHasNoLastSpace.push(textLines[0].substring(0, textLines[0].length - 1));
+    }
+    else {
+      textLinesHasNoLastSpace = textLines.map((line, index) => {
+        // pass last element because it is truncated
+        if (index === textLines.length - 1) {
+          return line;
+        }
+
+        const lineHasNoLastSpace = line.substring(0, line.length - 1);
+        const hasSpaceLanguage = lineHasNoLastSpace.includes(' ');
+
+        if (hasSpaceLanguage) {
+          // is French, English and so on
+          return line;
+        }
+
+        // is Japanese, Chinese and so on
+        return line.substring(0, line.length - 1);
+
+      });
+    }
+
+    return textLinesHasNoLastSpace;
+
   }
 
   async drawOgp() {
