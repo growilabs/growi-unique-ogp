@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ..:/workspace/growi-ogp:delegated
-      - node_modules:/workspace/growi-ogp/node_modules
+      - node_modules:/workspace/growi-ogp/src/node_modules
     ports:
       - 8088:8088
     tty: true
