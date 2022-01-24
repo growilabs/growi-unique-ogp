@@ -8,13 +8,12 @@ on:
 
 jobs:
 
-  server:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        # todo: update node version
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
       - name: Checkout
@@ -31,5 +30,8 @@ jobs:
         working-directory: ./src
         run: |
           npm install
- 
-      # TODO: check if server runs properly
+
+      - name: run jest
+        working-directory: ./src
+        run: |
+          npm run test
