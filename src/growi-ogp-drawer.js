@@ -261,7 +261,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
     if (textLines.length === 1) {
       const title = textLines[0];
-      const lastSpaceRemovedTitle = title.substring(0, text.length);
+      const lastSpaceRemovedTitle = title.substring(0, title.length - 1);
       textLinesHasNoLastSpace.push(lastSpaceRemovedTitle);
     }
     else {
