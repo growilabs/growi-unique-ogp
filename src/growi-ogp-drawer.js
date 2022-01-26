@@ -168,7 +168,8 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
    */
   drawWrappedText(textLines, lineHeight) {
 
-    const yDistanceMovedByTextLinesLength = 0.5 * lineHeight * (textLines.length - 1);
+    const halfLineHeight = lineHeight / 2;
+    const yDistanceMovedByTextLinesLength = halfLineHeight * (textLines.length - 1);
     const InitialYCoordinate = this.centerY - yDistanceMovedByTextLinesLength;
 
     textLines.forEach((line, index) => {
@@ -234,7 +235,9 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
     // in this line
     // each element of textLines has unnesessary last space
-    // like ['blabla ', 'blabla ', 'blablablabla ']
+    // like ['blabla ', 'blabla ', 'blablablabla ...'], ['this is a short title '],
+    // ['これは長いページタイトルで ', 'す。これは長いページタイトルで ', 'す。これは長いページタイトルです...'] or
+    // ['これは短いページタイトルです ']
 
     if (textLines.length > maxLineNumber) {
 
