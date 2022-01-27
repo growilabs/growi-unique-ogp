@@ -66,9 +66,12 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     const growiLogoImage = await Canvas.loadImage(GROWI_LOGO_IMAGE_PATH);
     const backgroundAccentImage = await Canvas.loadImage(BACKGROUND_ACCENT_IMAGE_PATH);
 
+    const startPointXCoordinateGrowiLogo = this.centerX - (growiLogoImage.width / 2);
+
     this.context.fillStyle = this.backgroundColor;
     this.context.fillRect(0, 0, this.imageWidth, this.imageHeight);
-    this.context.drawImage(growiLogoImage, this.centerX - (growiLogoImage.width / 2), logoMarginTop);
+
+    this.context.drawImage(growiLogoImage, startPointXCoordinateGrowiLogo, logoMarginTop);
     this.context.drawImage(backgroundAccentImage, 0, 0);
   }
 
@@ -106,7 +109,6 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
   }
 
   /**
-   *
    * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
    */
   drawTitle(fontOptions, textColor, textAlign, textBaseline, MaxWidth) {
@@ -122,9 +124,8 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
   }
 
   /**
-   *
    * @param {string} fontOptions canvas font selecter like 'bold 70px sans-serif'
-  */
+   */
   drawUserNameAndImage(fontOptions, textColor, textAlign, textBaseline, userNameAndImageMargin = 55, marginBottom = 50, userImageSize = 40) {
 
     const userNameFontOptions = fontOptions || this.userNameFontOptions;
@@ -134,19 +135,18 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     image.src = Buffer.from(this.bufferedUserImage);
 
     const userNameWidth = this.context.measureText(this.userName).width;
+    const userNameYCoordinate = this.imageHeight - marginBottom;
+    const userImageRadius = userImageSize / 2;
+    const userImageCenterXCoordinate = this.centerX - (userNameWidth / 2) - userNameAndImageMargin + userImageRadius;
 
-    this.context.fillText(this.userName, this.centerX, this.imageHeight - marginBottom);
-
-    //
-    // todo: adjust all positions based on entire image
-    //
+    this.context.fillText(this.userName, this.centerX, userNameYCoordinate);
 
     // rounded image
     this.context.beginPath();
     this.context.arc(
-      this.centerX - (userNameWidth / 2) - userNameAndImageMargin + userImageSize / 2,
-      this.imageHeight - marginBottom - (userImageSize / 2) + userImageSize / 2,
-      20, // radius
+      userImageCenterXCoordinate,
+      userNameYCoordinate,
+      userImageRadius,
       0,
       Math.PI * 2,
       false,
@@ -154,8 +154,8 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     this.context.clip();
     this.context.drawImage(
       image,
-      this.centerX - (userNameWidth / 2) - userNameAndImageMargin,
-      this.imageHeight - marginBottom - (userImageSize / 2),
+      userImageCenterXCoordinate - userImageRadius,
+      userNameYCoordinate - userImageRadius,
       userImageSize,
       userImageSize,
     );
@@ -168,15 +168,22 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
    */
   drawWrappedText(textLines, lineHeight) {
 
+    const halfLineHeight = lineHeight / 2;
+    const yDistanceMovedByTextLinesLength = halfLineHeight * (textLines.length - 1);
+    const InitialYCoordinate = this.centerY - yDistanceMovedByTextLinesLength;
+
     textLines.forEach((line, index) => {
-      // shift vertical middle position by line number
-      // this.centerY + (index)*lineHeight + 0.5(index-1)*lineHeight
+      // shift vertical title position by index
+
+      const yDistanceMovedByIndex = index * lineHeight;
+
       this.context.fillText(
         line,
         this.centerX,
-        this.centerY + (index) * lineHeight - 0.5 * lineHeight * (textLines.length - 1),
+        InitialYCoordinate + yDistanceMovedByIndex,
       );
     });
+
   }
 
   /**
@@ -228,7 +235,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
     // in this line
     // each element of textLines has unnesessary last space
-    // like ['blabla ', 'blabla ', 'blablablabla ']
+    // like ['blabla ', 'blabla ', 'blablablabla ...'], ['this is a short title '] or ['blablablabla ', 'blabla ']
 
     if (textLines.length > maxLineNumber) {
 
@@ -254,7 +261,9 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
     let textLinesHasNoLastSpace = [];
 
     if (textLines.length === 1) {
-      textLinesHasNoLastSpace.push(textLines[0].substring(0, textLines[0].length - 1));
+      const title = textLines[0];
+      const lastSpaceRemovedTitle = title.substring(0, title.length - 1);
+      textLinesHasNoLastSpace.push(lastSpaceRemovedTitle);
     }
     else {
       textLinesHasNoLastSpace = textLines.map((line, index) => {
