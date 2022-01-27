@@ -235,9 +235,7 @@ exports.GrowiOgpDrawer = class GrowiOgpDrawer {
 
     // in this line
     // each element of textLines has unnesessary last space
-    // like ['blabla ', 'blabla ', 'blablablabla ...'], ['this is a short title '],
-    // ['これは長いページタイトルで ', 'す。これは長いページタイトルで ', 'す。これは長いページタイトルです...'] or
-    // ['これは短いページタイトルです ']
+    // like ['blabla ', 'blabla ', 'blablablabla ...'], ['this is a short title '] or ['blablablabla ', 'blabla ']
 
     if (textLines.length > maxLineNumber) {
 
