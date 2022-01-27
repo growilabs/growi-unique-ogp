@@ -4,16 +4,21 @@
   "description": "UniqueOGP automatically produces inherent OGP image from the character string of the title.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "demo": "browserify demo.js -o bundle.js"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "author": "kimihiro_n",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^2.6.0",
-    "jcanvas": "^21.0.1",
-    "jquery": "^3.5.0",
-    "jsdom": "^15.1.1",
-    "onecolor": "^3.0.4"
+    "canvas": "^2.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.10",
+    "@babel/eslint-parser": "^7.16.5",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.7.0",
+    "eslint-config-weseek": "^1.1.0",
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.4.7"
   }
 }
