@@ -1,12 +1,23 @@
+# ---- Dependencies ----
+FROM node:16-slim as dependencies
+
+COPY src/package*.json .
+RUN npm install --only=production
+
+# ---- Start ----
 FROM node:16-slim
 
-RUN apt-get update -y && apt-get install -y python3 build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev fonts-noto-cjk
-
-COPY src/ /ogp/src/
-COPY resources/ /ogp/resources/
+# librsvg2-dev must be required for node canvas font
+RUN apt-get update -y \
+    && apt-get install -y librsvg2-dev fonts-noto-cjk \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /ogp/src
 
-RUN ["/bin/bash", "-c", "npm install"]
+COPY --from=dependencies ./node_modules ./node_modules
+COPY src/ /ogp/src/
+COPY resources/ /ogp/resources/
 
 ENTRYPOINT node index.js
