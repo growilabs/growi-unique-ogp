@@ -1,51 +1,38 @@
-# Unique OGP
-"Unique OGP" automatically produces unique OGP image.
+# growi-unique-ogp
 
-This returns an image of the size suitable for OGP image of Facebook when you give API a letter as input.
+Quick start [GROWI](https://github.com/weseek/growi) with ogp
 
-[![Run on Google Cloud](https://storage.googleapis.com/cloudrun/button.svg)](https://deploy.cloud.run)
+## Table of Contents
 
-## 日本語(Japanese)
-[ブログのアイキャッチ、OGP画像をタイトルから自動生成してみる #Pistatium](https://kimihiro-n.appspot.com/show/5908037558599680)
+1. [Feature](#feature)
+1. [Example](#example)
+1. [Start](#start)
 
+# Feature
 
-## Sample
+- Create ogp image by user name and a page title dynamically when growi public page url is shared
 
-> /?title=Unique%20OGP
-![sample.png](https://raw.githubusercontent.com/pistatium/unique_ogp/master/resources/sample.png)
+# Example
 
---  
+- example images
 
-> /?title=Hello world!&brand=Unique OGP
-![with_brand.png](https://raw.githubusercontent.com/pistatium/unique_ogp/master/resources/with_brand.png)
+![ogp_example_image1](https://user-images.githubusercontent.com/83065937/152304326-cfe7f69b-0a6c-4bff-abee-0bc54d1b1e1f.jpg)
 
---
+![ogp_example_image2](https://user-images.githubusercontent.com/83065937/152304335-7c80defa-05a3-4e95-a1ad-a19c09e30aa3.jpg)
 
-> /?title=全自動でOGP画像を生成します&brand=Unique OGP
-![about_ja.png](https://raw.githubusercontent.com/pistatium/unique_ogp/master/resources/about_ja.png)
+![ogp_example_image3](https://user-images.githubusercontent.com/83065937/152304341-8f5fd866-e941-4c1f-8274-f6590551b07a.jpg)
 
---
+# Start
 
-> /?title=http://kimihiro_n.appspot.com&brand=Pistatium
-![pistatium.png](https://raw.githubusercontent.com/pistatium/unique_ogp/master/resources/pistatium.png)
+## docker-compose
 
---
+- See https://github.com/weseek/growi-docker-compose/tree/master/examples/growi-unique-ogp
 
-## Online Demo
-[http://pistatium.github.io/unique_ogp/](https://pistatium.github.io/unique_ogp/)
+# Issues
 
-You can try to make the OGP image in real time.
+- If you have any problems or questions about this repository, please contact us through a [GitHub issue](https://github.com/weseek/growi-unique-ogp/issues).
 
-## Setup image API server
+# License
 
-```
-docker run -it -p 8088:8088 pistatium/unique_ogp
-```
-
-open browser http://X.X.X.X:8088?title=Test
-
---
-
-This software is released under the MIT License, see LICENSE.txt.
-
-Copyright(c) 2015 pistatium.
+- The MIT License (MIT)
+- See LICENSE file.
